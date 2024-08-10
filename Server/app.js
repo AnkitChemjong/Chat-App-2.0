@@ -20,6 +20,7 @@ app.use(cors({
     allowedHeaders:['Content-Type', 'Authorization', 'Accept'],
     credentials:true
 }));
+app.use("/uploads/profiles",express.static("uploads/profiles"));
 
 connect(database_url).then(()=>console.log("Database connected"))
 .catch((error)=>console.log("Can't connect to database"+error));
