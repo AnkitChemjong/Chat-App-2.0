@@ -9,7 +9,7 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT;
 const database_url=process.env.DATABASE_URL;
-const frontend_url =process.env.FRONTEND_URL;
+const frontend_url =process.env.ORIGIN;
 
 
 app.use(cookieParser());
@@ -24,7 +24,7 @@ app.use(cors({
 connect(database_url).then(()=>console.log("Database connected"))
 .catch((error)=>console.log("Can't connect to database"+error));
 
-app.use('/',userRoute);
+app.use('/api/auth',userRoute);
 app.listen(port, () => {
 console.log(`Chat app listening on port ${port}`);
 });
