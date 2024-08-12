@@ -27,7 +27,7 @@ const AuthRoute=({children})=>{
    const getUserData=async()=>{
      try{
       const response=await apiClient.get(GET_USER_INFO,{withCredentials:true});
-      console.log(response);
+      //console.log(response);
       if(response.status===200){
 
         setUserInfo(response.data.user);

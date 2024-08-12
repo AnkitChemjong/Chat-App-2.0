@@ -1,9 +1,8 @@
 import {Router} from 'express';
 import UserController from '../controllers/AuthController.js';
 import Middleware from '../middlewares/AuthMiddleware.js';
-import multer from 'multer';
+import upload from '../multer/userImage.js';
 
-const upload=multer({dest:"uploads/profiles"});
 
 const userRoute=Router();
 

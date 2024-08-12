@@ -8,7 +8,7 @@ import { getColor,colors } from '@/lib/utils.js';
 import {FaPlus,FaTrash} from 'react-icons/fa';
 import { toast } from 'sonner';
 import apiClient from '@/lib/api-client.js';
-import { ADD_PROFILE_IMAGE_ROUTE, UPDATE_PROFILE_ROUTE } from '@/utils/constants';
+import { ADD_PROFILE_IMAGE_ROUTE, HOST, UPDATE_PROFILE_ROUTE,REMOVE_PROFILE_IMAGE_ROUTE } from '@/utils/constants.js';
 
 const Profile = () => {
    const navigate=useNavigate();
@@ -37,6 +37,9 @@ const Profile = () => {
       setFirstName(userInfo.firstName);
       setLastName(userInfo.lastName);
       setSelectedColor(userInfo.color);
+    }
+    if(userInfo.image){
+      setImage(`${HOST}/${userInfo.image}`);
     }
   },[userInfo])
 
@@ -90,7 +93,17 @@ const Profile = () => {
   }
 
   const handleDeleteImage=async()=>{
-
+  try{
+    const response=await apiClient.delete(REMOVE_PROFILE_IMAGE_ROUTE,{withCredentials:true});
+    if(response.status===200){
+      setUserInfo({...userInfo,image:null});
+      toast.success("Image deleted successfully");
+      setImage(null);
+    }
+  }
+  catch(error){
+    console.log(error);
+  }
   }
   return (
     <div className='bg-[#1b1c24] h-[100vh] flex items-center justify-center flex-col gap-10'>
