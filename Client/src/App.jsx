@@ -17,7 +17,7 @@ const PrivateRoute=({children})=>{
 const AuthRoute=({children})=>{
   const {userInfo}=useAppStore();
   const isAuthenticated=!!userInfo;
-  return isAuthenticated? <Navigate to="/auth"/>:children;
+  return isAuthenticated? <Navigate to="/chat"/>:children;
  };
  
  const App = () => {
@@ -45,11 +45,12 @@ const AuthRoute=({children})=>{
    }
    if(!userInfo){
     getUserData();
+    console.log("hi")
    }
    else{
     setLoading(false);
    }
-  },[userInfo]);
+  },[userInfo,setUserInfo]);
   if(loading){
     return <div>Loading</div>
   }
@@ -57,7 +58,7 @@ const AuthRoute=({children})=>{
    <Router>
     <Routes>
     < Route path='/auth' element={<AuthRoute><Auth/></AuthRoute>}/>
-     < Route path='/' element={<Auth/>}/>
+     < Route path='*' element={<Navigate to="/auth"/>}/>
      < Route path='/chat' element={<PrivateRoute><Chat/></PrivateRoute>}/>
      < Route path='/profile' element={<PrivateRoute><Profile/></PrivateRoute>}/>
     </Routes>

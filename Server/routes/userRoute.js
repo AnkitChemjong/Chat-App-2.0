@@ -12,4 +12,5 @@ userRoute.get('/user-info',Middleware.verifyToken('cook'),UserController.getUser
 userRoute.post('/update-profile',Middleware.verifyUser('cook'),UserController.updateProfile);
 userRoute.post('/add-profile-image',Middleware.verifyUser('cook'),upload.single("profile-image"),UserController.addProfileImage);
 userRoute.delete('/remove-profile-image',Middleware.verifyUser('cook'),UserController.removeProfileImage);
+userRoute.delete('/logout',Middleware.verifyUser('cook'),UserController.logOut);
 export default userRoute;

@@ -4,6 +4,9 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import userRoute from './routes/userRoute.js';
 import path from 'path';
+import contactsRoutes from './routes/contactRoutes.js';
+import setUpSocket from './socket.js';
+import http from 'http';
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -26,7 +29,13 @@ app.use(express.static(path.resolve("./uploads/")));
 connect(database_url).then(()=>console.log("Database connected"))
 .catch((error)=>console.log("Can't connect to database"+error));
 
+const server=http.createServer(app);
 app.use('/api/auth',userRoute);
-app.listen(port, () => {
+app.use('/api/contacts',contactsRoutes);
+
+server.listen(port, () => {
 console.log(`Chat app listening on port ${port}`);
 });
+
+
+setUpSocket(server);

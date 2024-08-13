@@ -4,6 +4,7 @@ import {GrAttachment} from 'react-icons/gr'
 import { IoSend } from 'react-icons/io5';
 import { RiEmojiStickerLine } from 'react-icons/ri';
 
+
 const MessageBar = () => {
     const [message,setMessage]=useState("");
     const emojiRef=useRef();
@@ -21,8 +22,9 @@ const MessageBar = () => {
     },[emojiRef])
 
     const handleAddEmoji=async (emoji)=>{
-    setMessage((msg)=>msg+emoji.emoji)
-    }
+    setMessage((msg)=>{
+        return msg+emoji.emoji
+    })}
     const handleSendMessage=async ()=>{
        
         }

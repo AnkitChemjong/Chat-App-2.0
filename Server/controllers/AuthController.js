@@ -113,7 +113,14 @@ static signup=async (req,res)=>{
         return res.status(500).json({ message: err.message });
     }
 };
-  
+  static logOut=(req,res)=>{
+    try{
+      return res.clearCookie('cook').status(200).json({message:"Log Out Successfully"});
+    }
+    catch(e){
+      return res.status(500).json({message:"Log Out Failed"});
+    }
+  }
 
 }
 

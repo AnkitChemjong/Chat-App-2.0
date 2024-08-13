@@ -52,7 +52,7 @@ const Auth = () => {
       const response=await apiClient.post(LOGIN_ROUTE,{email,password},{withCredentials: true});
       //console.log(response);
       setUserInfo(response.data.user);
-      if(response.data.user?.profileSetup==true){
+      if(response.data.user.profileSetup===true){
           navigate('/chat')
       }
       else{
