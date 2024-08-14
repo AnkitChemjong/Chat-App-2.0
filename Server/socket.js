@@ -1,4 +1,5 @@
 import { Server } from "socket.io";
+import Message from "./models/messageModel.js";
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -23,6 +24,20 @@ const setUpSocket=(server)=>{
     }
 
  }
+ const sendMessage=async(message)=>{
+  const senderSocketId=userSocketMap.get(message.sender);
+  const recipientSocketId=userSocketMap.get(message.recipient);
+
+  const createMessage=await Message.create(message);
+  const messageData=await Message.findById(createMessage._id).populate("sender","_id email firstName lastName image color")
+  .populate("recipient","_id email firstName lastName image color")
+   if(recipientSocketId){
+    io.to(recipientSocketId).emit("receiveMessage",messageData);
+   }
+   if(senderSocketId){
+    io.to(senderSocketId).emit("receiveMessage",messageData);
+   }
+ }
 
  io.on('connection',(socket)=>{
     const userId=socket.handshake.query.userId;
@@ -33,6 +48,7 @@ const setUpSocket=(server)=>{
     else{
         console.log("User Id not provided during connection")
     }
+    socket.on("sendMessage",sendMessage);
     socket.on('disconnect',()=>disconnect(socket))
  })
  

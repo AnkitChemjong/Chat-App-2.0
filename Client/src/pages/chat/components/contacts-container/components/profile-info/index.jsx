@@ -25,7 +25,7 @@ const ProfileInfo = () => {
       timer=setTimeout(()=>{
 
         logOut()
-      },1*60*1000);
+      },15*60*1000);
       }
        else{
           clearTimeout(timer);

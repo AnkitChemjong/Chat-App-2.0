@@ -45,9 +45,8 @@ const AuthRoute=({children})=>{
    }
    if(!userInfo){
     getUserData();
-    console.log("hi")
-   }
-   else{
+  }
+  else{
     setLoading(false);
    }
   },[userInfo,setUserInfo]);
