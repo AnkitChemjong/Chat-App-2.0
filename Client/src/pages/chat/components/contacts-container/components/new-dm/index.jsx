@@ -52,6 +52,7 @@ const NewDm = () => {
          setSelectedChatType("contact");
          setSelectedChatData(contact);
          setSearchedContacts([]);
+        //  console.log(contact);
     }
   return (
     <>

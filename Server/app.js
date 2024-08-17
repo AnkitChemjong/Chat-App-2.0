@@ -6,6 +6,7 @@ import userRoute from './routes/userRoute.js';
 import path from 'path';
 import contactsRoutes from './routes/contactRoutes.js';
 import setUpSocket from './socket.js';
+import messagesRoute from './routes/MessagesRoute.js';
 import http from 'http';
 import dotenv from "dotenv";
 dotenv.config();
@@ -32,6 +33,7 @@ connect(database_url).then(()=>console.log("Database connected"))
 const server=http.createServer(app);
 app.use('/api/auth',userRoute);
 app.use('/api/contacts',contactsRoutes);
+app.use("/api/messages",messagesRoute);
 
 server.listen(port, () => {
 console.log(`Chat app listening on port ${port}`);
