@@ -15,7 +15,7 @@ const MessageBar = () => {
     const emojiRef=useRef();
     const [emojiPickerOpen,setEmojiPickerOpen]=useState(false);
     const fileInputRef=useRef();
-    const {selectedChatType,selectedChatData,userInfo}=useAppStore();
+    const {selectedChatType,selectedChatData,userInfo,setIsUploading,setFileUploadProgress}=useAppStore();
     useEffect(()=>{
     function handleClickOutside(event){
     if(emojiRef.current&&!emojiRef.current.contains(event.target)){
@@ -55,8 +55,14 @@ const MessageBar = () => {
          if(file){
             const formData=new FormData();
             formData.append("file",file);
-            const response=await apiClient.post(UPLOAD_FILE_ROUTE,formData,{withCredentials:true});
+            setIsUploading(true);
+            const response=await apiClient.post(UPLOAD_FILE_ROUTE,formData,{withCredentials:true,
+            onUploadProgress:data=>{
+                setFileUploadProgress(Math.round((100*data.loaded)/data.total));
+            }});
             if(response.status===200 && response.data){
+                setIsUploading(false);
+                setFileUploadProgress(0);
                 if(selectedChatType==="contact"){
                     socket.emit("sendMessage",{
                         sender:userInfo._id,
@@ -72,6 +78,8 @@ const MessageBar = () => {
 
       }
       catch(e){
+        setIsUploading(false);
+        setFileUploadProgress(0);
         console.log(e)
       }
     }
@@ -88,7 +96,7 @@ const MessageBar = () => {
         focus:text-white duration-300 transition-all'>
             <GrAttachment className="text-2xl"/>
         </button>
-        <input type="file" accept='.png, .jpg, .jpeg .gif' ref={fileInputRef}  className="hidden" onChange={handleAttachmentChange} />
+        <input type="file" ref={fileInputRef}  className="hidden" onChange={handleAttachmentChange} />
         <div className='relative'>
         <button className='text-neutral-500 focus:border-none focus:outline-none 
         focus:text-white duration-300 transition-all'
