@@ -1,4 +1,3 @@
-import jwt from 'jsonwebtoken';
 import Token from '../services/service.js';
 
 class Middleware{
@@ -16,7 +15,7 @@ class Middleware{
                 next();
             }
             catch(error){
-                throw new Error("Error getting the token and payload");
+                throw new Error("Error getting the token and payload in verify token");
             }
         }
        
@@ -35,7 +34,7 @@ class Middleware{
                 next();
             }
             catch(error){
-                throw new Error("Error getting the token and payload");
+                throw new Error("Error getting the token and payload in verify user");
             }
         }
        
