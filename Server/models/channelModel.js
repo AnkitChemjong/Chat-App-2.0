@@ -5,16 +5,16 @@ const channelSchema=new Schema({
         type: String,
         required: true
     },
-    members:[{type:Schema.Types.ObjectId,ref:"Users", required:true}],
+    members:[{type:Schema.Types.ObjectId,ref:"User", required:true}],
     admin:{
         type:Schema.Types.ObjectId,
-        ref:"Users",
+        ref:"User",
         required: true
     },
     messages:[
         {
             type:Schema.Types.ObjectId,
-            ref:"Users",
+            ref:"User",
             required: false
         }
     ],

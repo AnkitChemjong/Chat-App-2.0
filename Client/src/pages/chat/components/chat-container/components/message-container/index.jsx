@@ -7,12 +7,15 @@ import { HOST } from '@/utils/constants';
 import {MdFolderZip} from 'react-icons/md';
 import {IoMdArrowRoundDown} from 'react-icons/io';
 import { IoCloseSharp } from 'react-icons/io5';
+import { Avatar,AvatarImage,AvatarFallback } from '@/components/ui/avatar';
+import { getColor } from '@/lib/utils';
+
 
 const MessageContainer = () => {
   const [showImage,setShowImage]=useState(false);
   const [imageUrl,setImageUrl]=useState(null);
   const scrollRef = useRef();
-  const { selectedChatType, selectedChatData,selectedChatMessages,setSelectedChatMessages,setFileDownloadProgress,setIsDownloading} = useAppStore();
+  const { selectedChatType,userInfo, selectedChatData,selectedChatMessages,setSelectedChatMessages,setFileDownloadProgress,setIsDownloading} = useAppStore();
   useEffect(()=>{
     const getMessages=async()=>{
       try{
@@ -66,6 +69,11 @@ const MessageContainer = () => {
               renderDMMessages(message)
             )
           }
+          {
+            selectedChatType==="channel" && (
+                renderChannelMessage(message)
+            )
+          }
         </div>
       )
     });
@@ -99,12 +107,13 @@ const MessageContainer = () => {
     }
 };
 
+
   const renderDMMessages = (message) => {
     return (
       <div className={`${message.sender === selectedChatData._id ? "text-left" : "text-right"}`}>
         {
           message.messageType === "text" && (
-            <div className={`${message.sender !== selectedChatData._id ? "bg-[#8417ff]/5 text-[#8417ff]/90 border-[#8417ff]/50" : "bg-[#2a2b33]/5 text-[#8417ff]/80 border-[#ffffff]/20"}
+            <div className={`${message.sender !== selectedChatData._id ? "bg-[#8417ff]/5 text-[#8417ff]/90 border-[#8417ff]/50" : "bg-[#2a2b33]/5 text-white/80 border-[#ffffff]/20"}
         border inline-block p-4 my-1 max-w-[50%] break-words`}>
               {message.content}
             </div>
@@ -143,6 +152,51 @@ const MessageContainer = () => {
         <div className="text-xs text-gray-600">
           {moment(message.timestamp).format("LT")}
         </div>
+      </div>
+    )
+  }
+  const renderChannelMessage=(message)=>{
+    return(
+      <div className={`mt-5 ${message.sender._id !== userInfo._id ? "text-left":"text-right"} `}>
+          {
+          message.messageType === "text" && (
+            <div className={`${message.sender._id === userInfo._id ? "bg-[#8417ff]/5 text-[#8417ff]/90 border-[#8417ff]/50" : "bg-[#2a2b33]/5 text-white/80 border-[#ffffff]/20"}
+        border inline-block p-4 my-1 max-w-[50%] break-words ml-9`}>
+              {message.content}
+            </div>
+          )
+        }
+        {
+          message.sender._id !== userInfo.id ? (
+           <div className={`flex items-center ${message.sender._id !== userInfo._id ? "justify-start":"justify-end"} gap-3`}>
+             <Avatar className=" h-8 w-8 md:h-12 md:w-12 rounded-full overflow-hidden">
+              {
+                message.sender.image && <AvatarImage src={`${HOST}/${message.sender.image}`} alt="profile" 
+                className="object-cover w-full h-full bg-black"
+                />} 
+                
+                <AvatarFallback className={`uppercase h-8 w-8 md:h-12 md:w-12  text-lg  flex items-center justify-center rounded-full ${getColor(message.sender.color)}`}>
+
+                  {message.sender.firstName? message.sender.firstName.split("").shift():message.sender.email.split("")[0]}
+                </AvatarFallback>
+              </Avatar>
+              <span className='text-sm text-white/60'>
+               {`${message.sender.firstName} ${message.sender.lastName}`}
+              </span>
+              <span className='text-xs text-white/60'>
+                {moment(message.timestamp).format("LT")}
+              </span>
+           </div>
+
+          ):
+          (
+        
+                  <div className='text-xs text-white/60 mt-1'>
+                {moment(message.timestamp).format("LT")}
+              </div>
+                
+          ) 
+        }
       </div>
     )
   }
