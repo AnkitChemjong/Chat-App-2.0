@@ -49,7 +49,7 @@ const ContactList = ({contacts,isChannel=false}) => {
                   {
                     isChannel && (
                       <div className='bg-[#ffffff22] h-10 w-10 flex items-center justify-center rounded-full'>
-
+                            {contact.name? contact.name.split("").shift():contact.admin.split("")[0]}
                       </div>
                     )
                   }

@@ -94,6 +94,22 @@ class ContactController {
     }
 }
 
+static getAllContacts = async (req, res) => {
+  try {
+    const users =await User.find({_id:{$ne:req.user.id}}).select("firstName lastName _id email");
+   
+    const contacts=users.map((user)=>({
+      label:user.firstName? `${user.firstName} ${user.lastName}`:user.email,value:user._id
+    }))
+
+    return res.status(200).json({ contacts });
+
+  } catch (e) {
+    return res.status(500).send("Error in get all Contacts"); // Use 500 for server errors
+  }
+}
+
+
 }
 
 export default ContactController;

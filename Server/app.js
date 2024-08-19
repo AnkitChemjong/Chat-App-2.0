@@ -9,6 +9,7 @@ import setUpSocket from './socket.js';
 import messagesRoute from './routes/MessagesRoute.js';
 import http from 'http';
 import dotenv from "dotenv";
+import channelRouter from './routes/ChannelRoute.js';
 dotenv.config();
 
 const app = express();
@@ -34,6 +35,7 @@ const server=http.createServer(app);
 app.use('/api/auth',userRoute);
 app.use('/api/contacts',contactsRoutes);
 app.use("/api/messages",messagesRoute);
+app.use("/api/channel",channelRouter);
 
 server.listen(port, () => {
 console.log(`Chat app listening on port ${port}`);

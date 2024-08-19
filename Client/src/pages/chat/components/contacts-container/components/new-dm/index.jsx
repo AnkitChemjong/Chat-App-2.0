@@ -69,7 +69,11 @@ const NewDm = () => {
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
-      <Dialog open={openNewContactModal} onOpenChange={setOpenNewContactModal}>
+      <Dialog open={openNewContactModal} onOpenChange={()=>{
+        setOpenNewContactModal(false)
+        setSearchedContacts([])
+      }
+        }>
   <DialogContent className="bg-[#181920] border-none text-white w-[400px] h-[400px] flex flex-col">
     <DialogHeader>
       <DialogTitle>Please Select a contact</DialogTitle>
@@ -116,7 +120,7 @@ const NewDm = () => {
     {
         searchedContacts.length<=0 && 
         (
-            <div className="flex-1  md:flex mt-5 md:mt-0 flex-col justify-center items-center hidden duration-1000 transition-all">
+            <div className="flex-1  md:flex mt-5 md:mt-0 flex-col justify-center items-center duration-1000 transition-all">
      <Lottie
      isClickToPauseDisabled={true}
      height={100}
@@ -130,8 +134,6 @@ const NewDm = () => {
             Hi <span className='text-purple-500'>!</span> Search new
             <span className='text-purple-500'> Contact.</span>
         </h3>
-         
-
      </div>
     </div>
         )

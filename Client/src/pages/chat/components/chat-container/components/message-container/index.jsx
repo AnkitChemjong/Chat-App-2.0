@@ -90,9 +90,11 @@ const MessageContainer = () => {
         window.URL.revokeObjectURL(urlBlob); // Corrected this line
         setIsDownloading(false);
         setFileDownloadProgress(0);
+        setShowImage(false)
     } catch (error) {
       setIsDownloading(false);
       setFileDownloadProgress(0);
+      setShowImage(false)
         console.error("Download failed:", error);
     }
 };
@@ -157,7 +159,8 @@ const MessageContainer = () => {
                   </div>
                   <div className='flex gap-5 fixed top-0 mt-5'>
                       <button className='bg-black/20 p-3 text-2xl rounded-full hover:bg-black/50 courser-pointer transition-all duration-300'
-                      onClick={()=>downloadFile(imageUrl)}>
+                      onClick={()=>
+                      downloadFile(imageUrl)}>
                             <IoMdArrowRoundDown/>
                       </button>
                       <button className='bg-black/20 p-3 text-2xl rounded-full hover:bg-black/50 courser-pointer transition-all duration-300'
