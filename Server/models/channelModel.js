@@ -14,7 +14,7 @@ const channelSchema=new Schema({
     messages:[
         {
             type:Schema.Types.ObjectId,
-            ref:"User",
+            ref:"Message",
             required: false
         }
     ],

@@ -48,10 +48,10 @@ const sendChannelMessage=async (message)=>{
   const createdMessage=await Message.create({sender,recipient:null,messageType,content,
     fileUrl,timestamp:new Date()});
     const messageData=await Message.findById(createdMessage._id).populate("sender","_id email firstName lastName image color");
-  await Channel.findByIdAndUpdate(channelId,{
-      $push:{messages:createdMessage._id}
-        });
-  const channel=await Channel.findById(channelId).populate("members");
+   // Update the channel with the new message
+   const channel = await Channel.findByIdAndUpdate(channelId, {
+    $push: { messages: createdMessage._id },
+  }, { new: true }).populate("members admin");
   const finalData={...messageData._doc,channelId:channel._id};
   if(channel && channel.members){
     channel.members.forEach((member)=>{
