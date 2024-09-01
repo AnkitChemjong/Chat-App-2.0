@@ -112,6 +112,7 @@ const MessageContainer = () => {
         document.body.appendChild(link);
         link.click();
         link.remove();
+        // document.removeChild(link);
         window.URL.revokeObjectURL(urlBlob); // Corrected this line
         setIsDownloading(false);
         setFileDownloadProgress(0);
@@ -139,7 +140,7 @@ const MessageContainer = () => {
         {
           message.messageType==="file" && (
             <div className={`${message.sender !== selectedChatData._id ? "bg-[#8417ff]/5 text-[#8417ff]/90 border-[#8417ff]/50" : "bg-[#2a2b33]/5 text-white/80 border-[#ffffff]/20"}
-        border inline-block p-4 my-1 max-w-[50%] break-words`}>
+        border inline-block p-3 my-2 max-w-[50%] break-words`}>
                {
                 checkIfImage(message.fileUrl) ? <div className='cursor-pointer'
                 onClick={()=>{
@@ -178,7 +179,7 @@ const MessageContainer = () => {
           {
           message.messageType === "text" && (
             <div className={`${message.sender._id === userInfo._id ? "bg-[#8417ff]/5 text-[#8417ff]/90 border-[#8417ff]/50" : "bg-[#2a2b33]/5 text-white/80 border-[#ffffff]/20"}
-        border inline-block p-4 my-1 max-w-[50%] break-words ml-9`}>
+        border inline-block p-3 my-2 max-w-[50%] break-words ml-9`}>
               {message.content}
             </div>
           )
